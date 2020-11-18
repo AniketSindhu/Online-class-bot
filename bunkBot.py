@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 import time
 import getpass
+import re
 
 meetHome="https://meet.google.com"
 emailId=str(input('Enter your email id:'))
@@ -20,7 +21,7 @@ opt.add_experimental_option("prefs", {
     "profile.default_content_setting_values.notifications": 2 
   })
 
-driver=webdriver.Chrome()
+driver=webdriver.Chrome(options=opt)
 driver.implicitly_wait(30)
 
 def getLink():
@@ -64,22 +65,46 @@ def gmailLogin():
 
 def joinMeet():
     print(classLink)
+    time.sleep(10)
     driver.get(classLink)
-    time.sleep(1005)
+    time.sleep(2)
     dismiss=driver.find_element_by_xpath('//*[@id="yDmH0d"]/div[3]/div/div[2]/div[3]/div')
     dismiss.click()
     print("[+] Microphone turned off")
     print("[+] Camera turned off")
     time.sleep(8)
-    join=driver.find_element_by_xpath('/html/body/div[1]/c-wiz/div/div/div[7]/div[3]/div/div/div[2]/div/div[1]/div[2]/div/div[2]/div/div[1]/div[1]/span')
-    join.click()
-    print("[+] Class joined")
-    time.sleep(5)
+    #join=driver.find_element_by_xpath('/html/body/div[1]/c-wiz/div/div/div[8]/div[3]/div/div/div[2]/div/div[1]/div[2]/div/div[2]/div/div[1]/div[1]/span')
+    #join.click()
     try:
-        closeInfo=driver.find_element_by_xpath('//*[@id="yDmH0d"]/div[3]/div/div[2]/div[2]/div[3]/div')
-        closeInfo.click()
+        driver.find_element_by_xpath('//*[@id="yDmH0d"]/div[3]/div/div[2]/div[3]/div').click()
+        try:
+            driver.find_element_by_xpath("//span[@class='NPEfkd RveJvd snByac' and contains(text(), 'Ask to join')]").click()
+        except:
+            driver.find_element_by_xpath("//span[@class='NPEfkd RveJvd snByac' and contains(text(), 'Join now')]").click()
     except:
-        pass
+        try:
+            driver.find_element_by_xpath("//span[@class='NPEfkd RveJvd snByac' and contains(text(), 'Ask to join')]").click()
+        except:
+            driver.find_element_by_xpath("//span[@class='NPEfkd RveJvd snByac' and contains(text(), 'Join now')]").click()
+
+    # waiting_N_click("//*[@id=\"ow3\"]/div[1]/div/div[4]/div[3]/div[6]/div[3]/div/div[2]/div[3]/span/span")
+    time.sleep(10)
+    #driver.find_element_by_class_name("NPEfkd RveJvd snByac").click()
+    print("Joined the meeting")
+    while True:
+        time.sleep(5)
+        people = driver.find_element_by_xpath("//span[@class='wnPUne N0PJ8e']").text
+        ##people_int = re.findall(r'[0-9]+', people) 
+        ##print(people_int[0])
+        ##currentStudents = int(people_int[0])
+        print(people)
+        if int(people)<2:
+            break
+        
+
+""" def waiting_N_click(path):
+    driver.find_element_by_class_name(path).click() """
+
 
 while True:
     classLink = getLink()
