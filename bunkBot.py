@@ -30,7 +30,7 @@ def getLink():
     driver.find_element_by_xpath('/html/body/div[1]/div/div/div[4]/div/header/div[2]/div/div/span').click()
     driver.find_element_by_xpath('/html/body/div[1]/div/div/div[2]/div[3]/span/div/span/div/div/div[1]/div[2]/div[1]/div/div/div[1]/span').click()
     driver.find_element_by_xpath('/html/body/div[1]/div/div/div[2]/div[3]/span/div/span/div/div[1]/button[3]').click()
-    classLink=driver.find_elements_by_class_name('_1vUBq')[0].get_attribute('title')
+    classLink=driver.find_elements_by_class_name('_1WyfI')[0].get_attribute('title')
     return classLink
 
 def gmailLogin():
@@ -45,7 +45,7 @@ def gmailLogin():
     driver.find_element_by_xpath('//input[@type="password"]').send_keys(password)
     driver.find_element_by_xpath('//*[@id="passwordNext"]').click()
 
-"""     print("[+] Opening Google chrome")
+""" print("[+] Opening Google chrome")
     driver.get(meetHome)
     time.sle
     signin=driver.find_element_by_xpath('/html/body/header/div[1]/div/div[3]/div[1]/div/span[1]/a')
@@ -65,14 +65,12 @@ def gmailLogin():
 
 def joinMeet():
     print(classLink)
-    time.sleep(10)
     driver.get(classLink)
     time.sleep(2)
     dismiss=driver.find_element_by_xpath('//*[@id="yDmH0d"]/div[3]/div/div[2]/div[3]/div')
     dismiss.click()
     print("[+] Microphone turned off")
     print("[+] Camera turned off")
-    time.sleep(8)
     #join=driver.find_element_by_xpath('/html/body/div[1]/c-wiz/div/div/div[8]/div[3]/div/div/div[2]/div/div[1]/div[2]/div/div[2]/div/div[1]/div[1]/span')
     #join.click()
     try:
@@ -102,15 +100,12 @@ def joinMeet():
             break
         
 
-""" def waiting_N_click(path):
-    driver.find_element_by_class_name(path).click() """
-
+gmailLogin()
 
 while True:
     classLink = getLink()
     print(str(classLink)[:24])
     if str(classLink)[:24]=="https://meet.google.com/":
-        gmailLogin()
         joinMeet()
     else:
         print("link not valid")
